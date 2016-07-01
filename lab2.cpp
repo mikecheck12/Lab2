@@ -73,17 +73,10 @@ int main(int argc, char* argv[]){
 
 	in.close();
 
-	//cerr << dictionary.size() << endl;
-	//cerr << dictionary.count("bugs") << endl;
 
 	//Open and retrieve document info
         in.open(argv[2]);
 
-	/*
-	if (in.is_open()) {
-		cerr << "open" << endl;
-	}	
-	*/
 
 	while (getline(in, line)) {
 		lineNum++;
@@ -98,8 +91,6 @@ int main(int argc, char* argv[]){
         //output misspelled words
 
         printIndex(misspelledWords, argv);
-
-	//cerr << misspelledWords.size() << endl;
 
 
 	return 0;
