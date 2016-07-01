@@ -10,7 +10,7 @@
 using namespace std;
 
 void makeLower(string& word) {
-	transform(word.begin(), word.end(), word.begin(), tolower);
+        transform(word.begin(), word.end(), word.begin(), ::tolower);
 }
 
 void cleanLine(string& line) {
@@ -35,20 +35,25 @@ void spellCheck(string& line, set<string> dictionary, map<string, vector<int>>& 
 	}
 }
 
-void printIndex(map<string, vector<int>> misspelledWords) {
+void printIndex(map<string, vector<int>> misspelledWords, char* argv[]) {
+
+    ofstream out;
+    out.open(argv[3]);
+
 	for (auto it = misspelledWords.begin(); it != misspelledWords.end(); it++)
 	{
-		cout << it->first << " : ";
+                out << it->first << ":";
 
 		for (auto it2 = it->second.begin(); it2 != it->second.end(); it2++) {
-			cout << *it2 << " ";
+                        out << " "<< *it2;
 		}
-		cout << endl;
+                out << endl;
 	}
+        out.close();
 }
 
-int main()
-{
+int main(int argc, char* argv[]){
+
 	set<string> dictionary;
 	vector<int> listLine;
 	map<string, vector<int>> misspelledWords;
@@ -59,7 +64,7 @@ int main()
 
 	//Open and retrieve dictionary info
 	ifstream in;
-	in.open("in20a.txt");
+        in.open(argv[1]);
 
 	while (in >> word){
 		makeLower(word);
@@ -68,17 +73,10 @@ int main()
 
 	in.close();
 
-	//cerr << dictionary.size() << endl;
-	//cerr << dictionary.count("bugs") << endl;
 
 	//Open and retrieve document info
-	in.open("in20b.txt");
+        in.open(argv[2]);
 
-	/*
-	if (in.is_open()) {
-		cerr << "open" << endl;
-	}	
-	*/
 
 	while (getline(in, line)) {
 		lineNum++;
@@ -90,12 +88,11 @@ int main()
 
 	in.close();
 
-	printIndex(misspelledWords);
+        //output misspelled words
 
-	//cerr << misspelledWords.size() << endl;
+        printIndex(misspelledWords, argv);
 
 
-	system("pause");
 	return 0;
 
 }
